@@ -11,6 +11,11 @@ This role requires the NetworkManager command line interface binary (nmcli) to e
 Role Variables
 --------------
 ```
+wlan_physical_device
+```
+The device name of the wifi interface. Default value is `wlan0`
+
+```
 wlan_ap_ipaddress
 ```
 The ip address of the wifi interface, also serving as the gateway for all wifi clients connecting to this access point. Default value is 192.168.42.1/24.
