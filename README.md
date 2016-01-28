@@ -45,7 +45,10 @@ Example Playbook
   remote_user: root
 
   roles:
-    - {role: "wlan_ap", wlan_ap_ipaddress: "<your wanted ip", wlan_ap_ssid: "<your wanted ssid>", wlan_ap_secret: "<your wanted wlan password>"}
+    - {role: "ansible-role-wlan_ap", wlan_physical_device: "wlan0",
+                        wlan_ap_ipaddress: "<your wanted ip>", 
+                        wlan_ap_ssid: "<your wanted ssid>", 
+                        wlan_ap_secret: "<your wanted wlan password>"}
 ```
 
 with an inventory file like this for example:
