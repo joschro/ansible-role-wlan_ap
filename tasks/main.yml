@@ -18,7 +18,7 @@
   tags: nmcli
 
 - name: Run nmcli to add a connection with the specified parameters as a wifi access point if above check has failed
-  command: /usr/bin/nmcli c add autoconnect yes save yes con-name {{ wlan_ap_ssid }} ifname wlan0 type wifi ssid {{ wlan_ap_ssid }} mode ap ip4 {{ wlan_ap_ipaddress }}
+  command: /usr/bin/nmcli c add autoconnect yes save yes con-name {{ wlan_ap_ssid }} ifname {{ wlan_physical_device }} type wifi ssid {{ wlan_ap_ssid }} mode ap ip4 {{ wlan_ap_ipaddress }}
   when: nmcli_result | failed
   tags: nmcli
 
@@ -56,7 +56,7 @@
   tags: dnsmasq
 
 - name: Configure Dnsmasq
-  template: src=dnsmasq-wlan_ap.conf dest=/etc/dnsmasq.d/dnsmasq-wlan_ap.conf
+  template: src=dnsmasq-wlan_ap.j2 dest=/etc/dnsmasq.d/dnsmasq-wlan_ap.conf
   tags: dnsmasq
 
 - name: Enable and start Dnsmaq
