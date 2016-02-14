@@ -11,33 +11,33 @@
    - dnsmasq
 
 - name: Run nmcli to check if wifi access point connection has already been added
-  shell: /usr/bin/nmcli c | grep {{ wlan_ap.ssid }} 
+  shell: /usr/bin/nmcli c | grep {{ wlan_ap_ssid }} 
   register: nmcli_result
   ignore_errors: True
   tags: nmcli
 
 - name: Run nmcli to add a connection with the specified parameters as a wifi access point if above check has failed
-  command: /usr/bin/nmcli c add autoconnect yes save yes con-name {{ wlan_ap.ssid }} ifname wlan0 type wifi ssid {{ wlan_ap.ssid }} mode ap ip4 {{ wlan_ap.ipaddress }}
+  command: /usr/bin/nmcli c add autoconnect yes save yes con-name {{ wlan_ap_ssid }} ifname wlan0 type wifi ssid {{ wlan_ap_ssid }} mode ap ip4 {{ wlan_ap_ipaddress }}
   when: nmcli_result | failed
   tags: nmcli
 
 - name: Run nmcli to add WPA-PSK security to the wifi connection
-  command: /usr/bin/nmcli c mod {{ wlan_ap.ssid }} 802-11-wireless-security.key-mgmt wpa-psk 802-11-wireless-security.psk {{ wlan_ap.password }}
+  command: /usr/bin/nmcli c mod {{ wlan_ap_ssid }} 802-11-wireless-security.key-mgmt wpa-psk 802-11-wireless-security.psk {{ wlan_ap_password }}
   tags: nmcli
 
 - name: Run nmcli to activate wifi access point connection
-  command: /usr/bin/nmcli c up {{ wlan_ap.ssid }}
+  command: /usr/bin/nmcli c up {{ wlan_ap_ssid }}
   tags: nmcli
 
-- name: Add nmcli c up {{ wlan_ap.ssid }} to /etc/rc.local to workaround a bug in systemd
-  shell: grep "nmcli c up {{ wlan_ap.ssid }}" /etc/rc.local || echo "/usr/bin/nmcli c up {{ wlan_ap.ssid }}" >> /etc/rc.local
+- name: Add nmcli c up {{ wlan_ap_ssid }} to /etc/rc.local to workaround a bug in systemd
+  shell: grep "nmcli c up {{ wlan_ap_ssid }}" /etc/rc.local || echo "/usr/bin/nmcli c up {{ wlan_ap_ssid }}" >> /etc/rc.local
   tags: nmcli
 
 - name: Make /etc/rc.d/rc.local executable to enable the previous fix
   command: /usr/bin/chmod +x /etc/rc.d/rc.local
   tags: nmcli
 
-# maybe add source={{ wlan_ap.ipaddress }} if ansible version >=2.0
+# maybe add source={{ wlan_ap_ipaddress }} if ansible version >=2.0
 - name: Insert firewalld rule for DNS port 52
   firewalld: service=dns permanent=true state=enabled immediate=yes
   tags: dnsmasq

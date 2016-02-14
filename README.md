@@ -11,17 +11,17 @@ This role requires the NetworkManager command line interface binary (nmcli) to e
 Role Variables
 --------------
 ```
-wlan_ap.ipaddress
+wlan_ap_ipaddress
 ```
 The ip address of the wifi interface, also serving as the gateway for all wifi clients connecting to this access point. Default value is 192.168.42.1/24.
 
 ```
-wlan_ap.ssid
+wlan_ap_ssid
 ```
 The wifi network name aka SSID created by the wifi access point. Default is IoT-GW
 
 ```
-wlan_ap.secret
+wlan_ap_secret
 ```
 The shared key for the WPA-PSK wireless network.
 

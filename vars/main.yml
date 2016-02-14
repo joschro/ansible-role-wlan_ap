@@ -1,6 +1,6 @@
 ---
 # vars file for wlan_ap
 
-wlan_ap.ipaddress: 192.168.42.1/24
-wlan_ap.ssid: IoT-GW
-wlan_ap.secret: dontpanic
+wlan_ap_ipaddress: 192.168.42.1/24
+wlan_ap_ssid: IoT-GW
+wlan_ap_secret: dontpanic
