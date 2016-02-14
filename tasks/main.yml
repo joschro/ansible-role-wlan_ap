@@ -22,7 +22,7 @@
   tags: nmcli
 
 - name: Run nmcli to add WPA-PSK security to the wifi connection
-  command: /usr/bin/nmcli c mod {{ wlan_ap_ssid }} 802-11-wireless-security.key-mgmt wpa-psk 802-11-wireless-security.psk {{ wlan_ap_password }}
+  command: /usr/bin/nmcli c mod {{ wlan_ap_ssid }} 802-11-wireless-security.key-mgmt wpa-psk 802-11-wireless-security.psk {{ wlan_ap_secret }}
   tags: nmcli
 
 - name: Run nmcli to activate wifi access point connection
