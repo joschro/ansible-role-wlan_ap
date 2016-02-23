@@ -40,13 +40,15 @@ Example Playbook
   remote_user: root
 
   roles:
-    - wlan_ap
+    - {role: "wlan_ap", wlan_ap_ipaddress: "<your wanted ip", wlan_ap_ssid: "<your wanted ssid>", wlan_ap_secret: "<your wanted wlan password>"}
+```
 
 with an inventory file like this for example:
 
+```
 [access_points]
 access_point ansible_ssh_host=<ip-address> ansible_ssh_user=root
-
+```
 
 License
 -------
