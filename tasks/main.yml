@@ -5,24 +5,25 @@
   yum: name={{ item }} state=present
   with_items:
    - NetworkManager
+   - NetworkManager-wifi
    - dnsmasq
   tags:
    - nmcli
    - dnsmasq
 
 - name: Run nmcli to check if wifi access point connection has already been added
-  shell: /usr/bin/nmcli c | grep {{ wlan_ap_ssid }} 
+  shell: /usr/bin/nmcli c | grep {{ wlan_ap_ssid }}
   register: nmcli_result
   ignore_errors: True
   tags: nmcli
 
 - name: Run nmcli to add a connection with the specified parameters as a wifi access point if above check has failed
-  command: /usr/bin/nmcli c add autoconnect yes save yes con-name {{ wlan_ap_ssid }} ifname wlan0 type wifi ssid {{ wlan_ap_ssid }} mode ap ip4 {{ wlan_ap_ipaddress }}
+  command: /usr/bin/nmcli c add autoconnect yes save yes con-name {{ wlan_ap_ssid }} ifname {{ wlan_physical_device }} type wifi ssid {{ wlan_ap_ssid }} mode ap ip4 {{ wlan_ap_ipaddress }}
   when: nmcli_result | failed
   tags: nmcli
 
 - name: Run nmcli to add WPA-PSK security to the wifi connection
-  command: /usr/bin/nmcli c mod {{ wlan_ap_ssid }} 802-11-wireless-security.key-mgmt wpa-psk 802-11-wireless-security.psk {{ wlan_ap_secret }}
+  command: /usr/bin/nmcli c mod {{ wlan_ap_ssid }} 802-11-wireless-security.key-mgmt wpa-psk 802-11-wireless-security.psk {{ wlan_ap_secret }} 802-11-wireless-security.pairwise ccmp, 802-11-wireless-security.proto rsn
   tags: nmcli
 
 - name: Run nmcli to activate wifi access point connection
@@ -42,7 +43,7 @@
   firewalld: service=dns permanent=true state=enabled immediate=yes
   tags: dnsmasq
 
-- name: Insert firewalld rule for DHCP port 67 
+- name: Insert firewalld rule for DHCP port 67
   firewalld: service=dhcp permanent=true state=enabled immediate=yes
   tags: dnsmasq
 
@@ -55,7 +56,7 @@
   tags: dnsmasq
 
 - name: Configure Dnsmasq
-  template: src=dnsmasq-wlan_ap.conf dest=/etc/dnsmasq.d/dnsmasq-wlan_ap.conf
+  template: src=dnsmasq-wlan_ap.j2 dest=/etc/dnsmasq.d/dnsmasq-wlan_ap.conf
   tags: dnsmasq
 
 - name: Enable and start Dnsmaq

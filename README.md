@@ -11,6 +11,11 @@ This role requires the NetworkManager command line interface binary (nmcli) to e
 Role Variables
 --------------
 ```
+wlan_physical_device
+```
+The device name of the wifi interface. Default value is `wlan0`
+
+```
 wlan_ap_ipaddress
 ```
 The ip address of the wifi interface, also serving as the gateway for all wifi clients connecting to this access point. Default value is 192.168.42.1/24.
@@ -40,13 +45,19 @@ Example Playbook
   remote_user: root
 
   roles:
-    - wlan_ap
+    - {role: "ansible-role-wlan_ap", 
+             wlan_physical_device: "<device name of your wlan adapter>",
+             wlan_ap_ipaddress: "<your wanted ip>", 
+             wlan_ap_ssid: "<your wanted ssid>", 
+             wlan_ap_secret: "<your wanted wlan password>"}
+```
 
 with an inventory file like this for example:
 
+```
 [access_points]
 access_point ansible_ssh_host=<ip-address> ansible_ssh_user=root
-
+```
 
 License
 -------
