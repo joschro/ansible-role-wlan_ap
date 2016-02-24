@@ -41,7 +41,6 @@ Example Playbook
 
   roles:
     - {role: "ansible-role-wlan_ap", 
-             wlan_physical_device: "<device name of your wlan adapter>",
              wlan_ap_ipaddress: "<your wanted ip>", 
              wlan_ap_ssid: "<your wanted ssid>", 
              wlan_ap_secret: "<your wanted wlan password>"}
