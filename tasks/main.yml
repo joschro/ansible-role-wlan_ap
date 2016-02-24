@@ -5,13 +5,14 @@
   yum: name={{ item }} state=present
   with_items:
    - NetworkManager
+   - NetworkManager-wifi
    - dnsmasq
   tags:
    - nmcli
    - dnsmasq
 
 - name: Run nmcli to check if wifi access point connection has already been added
-  shell: /usr/bin/nmcli c | grep {{ wlan_ap_ssid }} 
+  shell: /usr/bin/nmcli c | grep {{ wlan_ap_ssid }}
   register: nmcli_result
   ignore_errors: True
   tags: nmcli
@@ -22,7 +23,7 @@
   tags: nmcli
 
 - name: Run nmcli to add WPA-PSK security to the wifi connection
-  command: /usr/bin/nmcli c mod {{ wlan_ap_ssid }} 802-11-wireless-security.key-mgmt wpa-psk 802-11-wireless-security.psk {{ wlan_ap_secret }}
+  command: /usr/bin/nmcli c mod {{ wlan_ap_ssid }} 802-11-wireless-security.key-mgmt wpa-psk 802-11-wireless-security.psk {{ wlan_ap_secret }} 802-11-wireless-security.pairwise ccmp, 802-11-wireless-security.proto rsn
   tags: nmcli
 
 - name: Run nmcli to activate wifi access point connection
@@ -42,7 +43,7 @@
   firewalld: service=dns permanent=true state=enabled immediate=yes
   tags: dnsmasq
 
-- name: Insert firewalld rule for DHCP port 67 
+- name: Insert firewalld rule for DHCP port 67
   firewalld: service=dhcp permanent=true state=enabled immediate=yes
   tags: dnsmasq
 
