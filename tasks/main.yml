@@ -11,6 +11,17 @@
    - nmcli
    - dnsmasq
 
+- name: Check if wifi device exists and exit if not
+  shell: nmcli device status | grep wifi
+  register: nmcli_result
+  ignore_errors: False
+  tags: nmcli
+
+- name: Assign wifi device name to variable
+  shell: nmcli device status | grep wifi | cut -d" " -f1
+  register: wlan_ap_device
+  tags: nmcli
+
 - name: Run nmcli to check if wifi access point connection has already been added
   shell: /usr/bin/nmcli c | grep {{ wlan_ap_ssid }}
   register: nmcli_result
@@ -18,7 +29,7 @@
   tags: nmcli
 
 - name: Run nmcli to add a connection with the specified parameters as a wifi access point if above check has failed
-  command: /usr/bin/nmcli c add autoconnect yes save yes con-name {{ wlan_ap_ssid }} ifname {{ wlan_physical_device }} type wifi ssid {{ wlan_ap_ssid }} mode ap ip4 {{ wlan_ap_ipaddress }}
+  command: /usr/bin/nmcli c add autoconnect yes save yes con-name {{ wlan_ap_ssid }} ifname {{ wlan_ap_device }} type wifi ssid {{ wlan_ap_ssid }} mode ap ip4 {{ wlan_ap_ipaddress }}
   when: nmcli_result | failed
   tags: nmcli
 

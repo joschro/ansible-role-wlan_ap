@@ -4,4 +4,3 @@
 wlan_ap_ipaddress: 192.168.42.1/24
 wlan_ap_ssid: IoT-GW
 wlan_ap_secret: dontpanic
-wlan_physical_device=wlan0
