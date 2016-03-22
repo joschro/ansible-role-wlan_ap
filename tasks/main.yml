@@ -7,18 +7,23 @@
    - NetworkManager
    - NetworkManager-wifi
    - dnsmasq
+   - chrony
   tags:
    - nmcli
    - dnsmasq
 
+- name: Start the chrony service
+  service: name=chronyd state=started enabled=yes
+  tags: packages
+
 - name: Check if wifi device exists and exit if not
-  shell: nmcli device status | grep wifi
+  shell: /usr/bin/nmcli device status | grep wifi
   register: nmcli_result
   ignore_errors: False
   tags: nmcli
 
 - name: Assign wifi device name to variable
-  shell: nmcli device status | grep wifi | cut -d" " -f1
+  shell: /usr/bin/nmcli device status | grep wifi | cut -d' ' -f1
   register: wlan_ap_device
   tags: nmcli
 
@@ -29,7 +34,7 @@
   tags: nmcli
 
 - name: Run nmcli to add a connection with the specified parameters as a wifi access point if above check has failed
-  command: /usr/bin/nmcli c add autoconnect yes save yes con-name {{ wlan_ap_ssid }} ifname {{ wlan_ap_device }} type wifi ssid {{ wlan_ap_ssid }} mode ap ip4 {{ wlan_ap_ipaddress }}
+  command: /usr/bin/nmcli c add autoconnect yes save yes con-name {{ wlan_ap_ssid }} ifname {{ wlan_ap_device.stdout }} type wifi ssid {{ wlan_ap_ssid }} mode ap ip4 {{ wlan_ap_ipaddress }}
   when: nmcli_result | failed
   tags: nmcli
 

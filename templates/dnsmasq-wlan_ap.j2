@@ -1,5 +1,5 @@
-interface={{ wlan_physical_device }}
-dhcp-range=192.168.42.10,192.168.42.250,2h
+interface={{ wlan_ap_device.stdout }}
+dhcp-range={{ wlan_ap_ipnet }}.10,{{ wlan_ap_ipnet }}.250,2h
 log-queries
 #log-dhcp
 log-facility=/var/log/dnsmasq.log
