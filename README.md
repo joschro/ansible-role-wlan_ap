@@ -7,6 +7,7 @@ Requirements
 ------------
 
 This role requires the NetworkManager command line interface binary (nmcli) to exist on the system.
+IMPORTANT: You need to make sure that the wireless adapter supports access point mode! For a Raspberry Pi, the original PiHut USB Wifi Adapter is recommended: https://thepihut.com/collections/raspberry-pi-wifi/products/usb-wifi-adapter-for-the-raspberry-pi
 
 Role Variables
 --------------
@@ -61,4 +62,4 @@ GPLv3
 Author Information
 ------------------
 
-Joachim Schröder, jos@redhat.com
+Joachim Schröder, jos (at) redhat.com
