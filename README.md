@@ -42,12 +42,13 @@ Example Playbook
 
   roles:
     - {role: "ansible-role-wlan_ap", 
-             wlan_ap_ipaddress: "<your wanted ip>", 
-             wlan_ap_ssid: "<your wanted ssid>", 
-             wlan_ap_secret: "<your wanted wlan password>"}
+             wlan_ap_ipaddress: "<chosen ip>/24", 
+             wlan_ap_ssid: "<chosen ssid>", 
+             wlan_ap_secret: "<chosen wlan password>"}
 ```
+(replace each <...> with the values of your choice)
 
-with an inventory file like this for example:
+With an inventory file like this for example:
 
 ```
 [access_points]
